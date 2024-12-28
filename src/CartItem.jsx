@@ -7,9 +7,12 @@ const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
 
+  // Convert cost from string to number for calculation purposes
+  const convertCostToNumber = (cost) => parseFloat(cost.replace('$', ''));
+
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
-    return cart.reduce((total, item) => total + (item.cost * item.quantity), 0).toFixed(2);
+    return cart.reduce((total, item) => total + (convertCostToNumber(item.cost) * item.quantity), 0).toFixed(2);
   };
 
   // Calculate the total quantity of all items in the cart
@@ -43,7 +46,7 @@ const CartItem = ({ onContinueShopping }) => {
 
   // Calculate total cost based on quantity for an item
   const calculateTotalCost = (item) => {
-    return (item.cost * item.quantity).toFixed(2);
+    return (convertCostToNumber(item.cost) * item.quantity).toFixed(2);
   };
 
   // Handle checkout action (placeholder for future functionality)
@@ -74,9 +77,9 @@ const CartItem = ({ onContinueShopping }) => {
           </div>
         ))}
       </div>
-      
+
       <div style={{ marginTop: '20px', color: 'black' }} className='total_cart_amount'></div>
-      
+
       <div className="continue_shopping_btn">
         <button className="get-started-button" onClick={handleContinueShopping}>Continue Shopping</button>
         <br />
